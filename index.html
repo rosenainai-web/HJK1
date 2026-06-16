@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>播放语音</title>
+<style>
+body{margin:0;height:100%;background:#111;display:flex;align-items:center;justify-content:center;font:19px system-ui;color:#fff}
+.box{text-align:center}
+button{padding:16px 44px;border:none;border-radius:14px;background:#0a84ff;color:#fff;font:20px system-ui}
+audio{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);width:88%}
+</style>
+</head>
+<body>
+<div class="box">
+  <p style="opacity:.55;margin-bottom:4px">🎵 语音消息</p>
+  <button onclick="go()">▶ 点一下播放</button>
+</div>
+
+<!-- ⚠️ 下面这行文件名必须和你仓库里的音频文件名一模一样（含后缀） -->
+<audio id="a" src="宝贝.m4a" preload="auto"></audio>
+
+<script>
+function go(){
+  var el=document.getElementById('a');
+  el.muted=false;
+  el.play().catch(function(){});
+}
+</script>
+</body>
+</html>
+
