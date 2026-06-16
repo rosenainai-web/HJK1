@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>播放语音</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100%;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font: 19px system-ui;
+      color: #fff;
+    }
+    .box {
+      text-align: center;
+    }
+    button {
+      padding: 16px 44px;
+      border: none;
+      border-radius: 14px;
+      background: #0a84ff;
+      color: #fff;
+      font: 20px system-ui;
+    }
+    audio {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 88%;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <!-- 标题会随音频变化 -->
+    <p id="title" style="opacity:.55; margin-bottom:4px">🎵 宝贝
+    <!-- 播放按钮 -->
+    <button onclick="playAudio()">▶ 点一下播放</button>
+  </div>
+
+  <!-- 音频元素（动态加载src） -->
+  <audio id="audioPlayer" preload="auto"></audio>
+
+  <script>
+    // 1. 从URL参数中获取音频名（如 ?n=2 → 加载2.m4a）
+    const params = new URLSearchParams(window.location.search);
+    let audioName = params.get('n') || '宝贝'; // 默认播放“宝贝”
+
+    // 2. 配置音频路径（文件在仓库根目录，直接写文件名）
+    const audioEl = document.getElementById('audioPlayer');
+    audioEl.src = `${encodeURIComponent(audioName)}.m4a`; // 编码中文文件名（如“宝贝”→%E4%B8%9D%E8%9C%80）
+
+    // 3. 更新页面标题（显示当前播放的音频名）
+    document.getElementById('title').innerText = `🎵 ${audioName}`;
+
+    // 4. 播放函数（解决iOS自动播放限制）
+    function playAudio() {
+      audioEl.muted = false;
+      audioEl.play().catch(err => {
+        console.log("播放失败：", err); // 调试用，实际可隐藏
+      });
+    }
+
+    // 5. 尝试自动播放（失败后需手动点击）
+    audioEl.play().catch(() => {});
+  </script>
+</body>
+</html>
+
